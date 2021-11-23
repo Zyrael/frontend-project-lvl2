@@ -2,11 +2,11 @@ import path from 'path';
 import { openSync, readFileSync } from 'fs';
 import _ from 'lodash';
 
-const getFileData = (file) => {
-  const filepath = path.resolve(file);
+const getFileData = (fileName) => {
+  const filepath = path.resolve(fileName);
   const openedFile = openSync(filepath);
-  const data = readFileSync(openedFile, 'utf-8');
-  return JSON.parse(data);
+  const rawData = readFileSync(openedFile, 'utf-8');
+  return JSON.parse(rawData);
 };
 
 const getSortedKeys = (data) => {
