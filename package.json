@@ -25,8 +25,11 @@
     "lodash": "^4.17.21"
   },
   "devDependencies": {
+    "@types/jest": "^27.0.3",
     "eslint": "^8.3.0",
     "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-plugin-import": "^2.25.3"
+    "eslint-plugin-import": "^2.25.3",
+    "jest": "^27.3.1",
+    "jest-cli": "^27.3.1"
   }
 }
