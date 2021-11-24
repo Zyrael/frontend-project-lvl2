@@ -3,12 +3,14 @@
   "version": "1.0.0",
   "description": "[![Actions Status](https://github.com/Zyrael/frontend-project-lvl2/workflows/hexlet-check/badge.svg)](https://github.com/Zyrael/frontend-project-lvl2/actions)",
   "main": "src/index.js",
-  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "npx jest --bail"
   },
   "bin": {
     "gendiff": "bin/gendiff.js"
+  },
+  "engines": {
+    "node": ">=16"
   },
   "repository": {
     "type": "git",
@@ -19,16 +21,19 @@
   "bugs": {
     "url": "https://github.com/Zyrael/frontend-project-lvl2/issues"
   },
+  "type": "module",
   "homepage": "https://github.com/Zyrael/frontend-project-lvl2#readme",
   "dependencies": {
     "commander": "^8.3.0",
-    "lodash": "^4.17.21"
+    "lodash": "^4.17.21",
+    "node": "^17.1.0"
   },
   "devDependencies": {
     "@jest/globals": "^27.3.1",
     "eslint": "^8.3.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-import": "^2.25.3",
+    "eslint-plugin-jest": "^25.3.0",
     "jest": "^27.3.1",
     "jest-cli": "^27.3.1"
   }
