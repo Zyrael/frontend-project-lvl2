@@ -13,5 +13,4 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: istalling
-        run: npm ci
-
+        run: make install
