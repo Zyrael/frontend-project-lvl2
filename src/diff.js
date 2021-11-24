@@ -1,13 +1,5 @@
-import path from 'path';
-import fs from 'fs';
 import _ from 'lodash';
-
-const getFileData = (fileName) => {
-  const filepath = path.resolve(fileName);
-  const openedFile = fs.openSync(filepath);
-  const rawData = fs.readFileSync(openedFile, 'utf-8');
-  return JSON.parse(rawData);
-};
+import parseFile from './parsers.js';
 
 const getSortedKeys = (data) => {
   const keys = Object.keys(data);
@@ -15,8 +7,8 @@ const getSortedKeys = (data) => {
 };
 
 export default (file1, file2) => {
-  const data1 = getFileData(file1);
-  const data2 = getFileData(file2);
+  const data1 = parseFile(file1);
+  const data2 = parseFile(file2);
 
   const sorted1 = getSortedKeys(data1);
   const sorted2 = getSortedKeys(data2);

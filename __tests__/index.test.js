@@ -2,14 +2,16 @@
 
 import path, { dirname } from 'path';
 import { fileURLToPath } from 'url';
-import { test, expect } from '@jest/globals';
-import genDiff from '../src/index.js';
+import { describe, test, expect } from '@jest/globals';
+import diff from '../src/diff.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const file1 = path.join(__dirname, '..', '__fixtures__', 'file1.json');
-const file2 = path.join(__dirname, '..', '__fixtures__', 'file2.json');
+const jsonFile1 = path.join(__dirname, '..', '__fixtures__', 'file1.json');
+const jsonFile2 = path.join(__dirname, '..', '__fixtures__', 'file2.json');
+const yamlFile1 = path.join(__dirname, '..', '__fixtures__', 'file1.yml');
+const yamlFile2 = path.join(__dirname, '..', '__fixtures__', 'file2.yml');
 
 const expected = `{
   - follow: false
@@ -19,7 +21,11 @@ const expected = `{
   + timeout: 20
   + verbose: true
 }`;
-
-test('gendiff', () => {
-  expect(genDiff(file1, file2)).toBe(expected);
+describe('main flow', () => {
+  test('json test', () => {
+    expect(diff(jsonFile1, jsonFile2)).toBe(expected);
+  });
+  test('yaml test', () => {
+    expect(diff(yamlFile1, yamlFile2)).toBe(expected);
+  });
 });

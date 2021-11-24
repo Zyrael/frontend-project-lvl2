@@ -2,7 +2,7 @@
   "name": "@hexlet/code",
   "version": "1.0.0",
   "description": "[![Actions Status](https://github.com/Zyrael/frontend-project-lvl2/workflows/hexlet-check/badge.svg)](https://github.com/Zyrael/frontend-project-lvl2/actions)",
-  "main": "src/index.js",
+  "main": "src/diff.js",
   "scripts": {
     "test": "npx jest --bail"
   },
@@ -25,6 +25,7 @@
   "homepage": "https://github.com/Zyrael/frontend-project-lvl2#readme",
   "dependencies": {
     "commander": "^8.3.0",
+    "js-yaml": "^4.1.0",
     "lodash": "^4.17.21",
     "node": "^17.1.0"
   },
