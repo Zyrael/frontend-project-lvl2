@@ -4,8 +4,7 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/e1e642886fbcbc900f37/maintainability)](https://codeclimate.com/github/Zyrael/frontend-project-lvl2/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/e1e642886fbcbc900f37/test_coverage)](https://codeclimate.com/github/Zyrael/frontend-project-lvl2/test_coverage)
 ### GitHub Actions:
-[![testing](https://github.com/Zyrael/frontend-project-lvl2/actions/workflows/testing.yml/badge.svg)](https://github.com/Zyrael/frontend-project-lvl2/actions/workflows/testing.yml)
-
+[![install and test the project](https://github.com/Zyrael/frontend-project-lvl2/actions/workflows/install%20and%20test.yml/badge.svg)](https://github.com/Zyrael/frontend-project-lvl2/actions/workflows/install%20and%20test.yml)
 # GenDiff
 
 ### Command:
