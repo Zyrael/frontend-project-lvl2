@@ -1,11 +1,11 @@
 import path from 'path';
-import { openSync, readFileSync } from 'fs';
+import fs from 'fs';
 import _ from 'lodash';
 
 const getFileData = (fileName) => {
   const filepath = path.resolve(fileName);
-  const openedFile = openSync(filepath);
-  const rawData = readFileSync(openedFile, 'utf-8');
+  const openedFile = fs.openSync(filepath);
+  const rawData = fs.readFileSync(openedFile, 'utf-8');
   return JSON.parse(rawData);
 };
 

@@ -10,8 +10,12 @@ on:
 jobs:
   install-and-test:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [ 16.x ]
     steps:
       - uses: actions/checkout@v2
+
       - name: istalling
         run: make install
       - name: linting
