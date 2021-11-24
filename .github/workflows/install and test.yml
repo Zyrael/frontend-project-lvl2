@@ -1,0 +1,16 @@
+name: install and test the project
+
+on:
+  push:
+    branches:
+      - '**'
+    tags:
+      - '**'
+
+jobs:
+  install-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: istalling
+        run: npm ci
+
