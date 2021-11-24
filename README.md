@@ -4,8 +4,11 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/e1e642886fbcbc900f37/maintainability)](https://codeclimate.com/github/Zyrael/frontend-project-lvl2/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/e1e642886fbcbc900f37/test_coverage)](https://codeclimate.com/github/Zyrael/frontend-project-lvl2/test_coverage)
 
-### Command:
-```shell
+## Running from command line
+```bash
 gendiff <file1> <file2>
 ```
-[![asciicast](https://asciinema.org/a/krUOOI2eTmxMLrEtf6Q3eBuAL.svg)](https://asciinema.org/a/krUOOI2eTmxMLrEtf6Q3eBuAL)
+### JSON Files:
+[![asciicast](https://asciinema.org/a/CwvvqiDkaoQHv7psrrR83I9Px.svg)](https://asciinema.org/a/CwvvqiDkaoQHv7psrrR83I9Px)
+### YAML Files:
+[![asciicast](https://asciinema.org/a/zMy0jspFJZpbTYHepzOUQqzgd.svg)](https://asciinema.org/a/zMy0jspFJZpbTYHepzOUQqzgd)
