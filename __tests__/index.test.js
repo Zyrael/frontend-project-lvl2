@@ -8,24 +8,57 @@ import diff from '../src/diff.js';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const jsonFile1 = path.join(__dirname, '..', '__fixtures__', 'file1.json');
-const jsonFile2 = path.join(__dirname, '..', '__fixtures__', 'file2.json');
-const yamlFile1 = path.join(__dirname, '..', '__fixtures__', 'file1.yml');
-const yamlFile2 = path.join(__dirname, '..', '__fixtures__', 'file2.yml');
+const getFilePath = (file) => path.join(__dirname, '..', '__fixtures__', file);
 
 const expected = `{
-  - follow: false
-    host: hexlet.io
-  - proxy: 123.234.53.22
-  - timeout: 50
-  + timeout: 20
-  + verbose: true
+    common: {
+      + follow: false
+        setting1: Value 1
+      - setting2: 200
+      - setting3: true
+      + setting3: null
+      + setting4: blah blah
+      + setting5: {
+            key5: value5
+        }
+        setting6: {
+            doge: {
+              - wow: 
+              + wow: so much
+            }
+            key: value
+          + ops: vops
+        }
+    }
+    group1: {
+      - baz: bas
+      + baz: bars
+        foo: bar
+      - nest: {
+            key: value
+        }
+      + nest: str
+    }
+  - group2: {
+        abc: 12345
+        deep: {
+            id: 45
+        }
+    }
+  + group3: {
+        deep: {
+            id: {
+                number: 45
+            }
+        }
+        fee: 100500
+    }
 }`;
 describe('main flow', () => {
   test('json test', () => {
-    expect(diff(jsonFile1, jsonFile2)).toBe(expected);
+    expect(diff(getFilePath('file1.json'), getFilePath('file2.json'))).toBe(expected);
   });
   test('yaml test', () => {
-    expect(diff(yamlFile1, yamlFile2)).toBe(expected);
+    expect(diff(getFilePath('file1.yaml'), getFilePath('file2.yaml'))).toBe(expected);
   });
 });
