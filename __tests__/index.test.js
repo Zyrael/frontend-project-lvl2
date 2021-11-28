@@ -56,9 +56,9 @@ const expected = `{
 }`;
 describe('main flow', () => {
   test('json test', () => {
-    expect(diff(getFilePath('file1.json'), getFilePath('file2.json'))).toBe(expected);
+    expect(diff(getFilePath('file1.json'), getFilePath('file2.json'), 'stylish')).toBe(expected);
   });
   test('yaml test', () => {
-    expect(diff(getFilePath('file1.yaml'), getFilePath('file2.yaml'))).toBe(expected);
+    expect(diff(getFilePath('file1.yaml'), getFilePath('file2.yaml'), 'stylish')).toBe(expected);
   });
 });

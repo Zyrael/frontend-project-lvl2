@@ -1,48 +1,53 @@
 import _ from 'lodash';
 import parseFile from './parsers.js';
+import stylish from './stylish.js';
+import { getKeys, getUniqueKeysSorted } from './functions.js';
 
-const getSortedKeys = (data) => {
-  const keys = Object.keys(data);
-  return _.sortBy(keys);
-};
+const getDifference = (data1, data2, depth = 0) => {
+  const keys1 = getKeys(data1);
+  const keys2 = getKeys(data2);
 
-const getDifference = (data1, data2, repeats = 1) => {
-  const sorted1 = getSortedKeys(data1);
-  const sorted2 = getSortedKeys(data2);
+  const sorted = getUniqueKeysSorted(keys1, keys2);
 
-  const unique = Array.from(new Set([...sorted1, ...sorted2]));
-
-  const spaces = ' '.repeat(repeats);
-  return unique.reduce((acc, key) => {
+  return sorted.reduce((acc, key) => {
     if (_.isObject(data1[key]) && _.isObject(data2[key])) {
-      return getDifference(data1[key], data2[key], repeats + 2);
+      return [...acc, {
+        depth, op: ' ', key, value: getDifference(data1[key], data2[key], depth + 1),
+      }];
     }
+
+    const value1 = data1[key];
+    const value2 = data2[key];
+
     if (key in data1 && key in data2) {
-      return (data1[key] === data2[key])
-        ? [...acc, [`${spaces} `, [key, data1[key]]]]
-        : [...acc, [`${spaces}-`, [key, data1[key]]], [`${spaces}+`, [key, data2[key]]]];
+      return data1[key] === data2[key]
+        ? [...acc, {
+          depth, op: ' ', key, value: value1,
+        }]
+        : [...acc, {
+          depth, op: '-', key, value: value1,
+        }, {
+          depth, op: '+', key, value: value2,
+        }];
     }
-    return (key in data1
-      ? [...acc, [`${spaces}-`, [key, data1[key]]]]
-      : [...acc, [`${spaces}+`, [key, data2[key]]]]);
+    return key in data1
+      ? [...acc, {
+        depth, op: '-', key, value: value1,
+      }]
+      : [...acc, {
+        depth, op: '+', key, value: value2,
+      }];
   }, []);
 };
-export default (file1, file2) => {
+export default (file1, file2, format) => {
   const data1 = parseFile(file1);
   const data2 = parseFile(file2);
 
-  return getDifference(data1, data2);
+  const diff = getDifference(data1, data2);
+  switch (format) {
+    case 'stylish':
+      return `{\n${stylish(diff)}}`;
+    default:
+      return 'no such format';
+  }
 };
-
-// const result = unique.reduce((acc, key) => {
-//   if (key in data1 && key in data2) {
-//     return (data1[key] === data2[key]
-//       ? `${acc}    ${key}: ${data1[key]}\n`
-//       : `${acc}  - ${key}: ${data1[key]}\n  + ${key}: ${data2[key]}\n`);
-//   }
-//   return (key in data1
-//     ? `${acc}  - ${key}: ${data1[key]}\n`
-//     : `${acc}  + ${key}: ${data2[key]}\n`);
-// }, '');
-//
-// return `{\n${result}}`;
