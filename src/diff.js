@@ -15,31 +15,31 @@ const getDifference = (data1, data2, depth = 0) => {
 
     if (_.isObject(value1) && _.isObject(value2)) {
       return [...acc, {
-        depth, op: ' ', key, value: getDifference(value1, value2, depth + 1),
+        depth, op: '  ', key, value: getDifference(value1, value2, depth + 1),
       }];
     }
     if (key in data1 && key in data2) {
       return value1 === value2
         ? [...acc, {
-          depth, op: ' ', key, value: value1,
+          depth, op: '  ', key, value: value1,
         }]
         : [...acc, {
-          depth, op: '-', key, value: value1,
+          depth, op: '- ', key, value: value1,
         }, {
-          depth, op: '+', key, value: value2,
+          depth, op: '+ ', key, value: value2,
         }];
     }
     return key in data1
       ? [...acc, {
-        depth, op: '-', key, value: value1,
+        depth, op: '- ', key, value: value1,
       }]
       : [...acc, {
-        depth, op: '+', key, value: value2,
+        depth, op: '+ ', key, value: value2,
       }];
   }, []);
 };
 
-export default (file1, file2, format = 'stylish') => {
+export default (file1, file2, format) => {
   const data1 = parseFile(file1);
   const data2 = parseFile(file2);
 

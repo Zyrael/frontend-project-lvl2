@@ -17,12 +17,11 @@ const stringify = (obj, depth) => {
 };
 
 const style = (diff) => {
-  const result = diff.reduce((acc, obj) => {
-    const {
-      depth, op, key, value,
-    } = obj;
+  const result = diff.reduce((acc, {
+    depth, op, key, value,
+  }) => {
     const indent = getIndentation(depth);
-    const indentedKey = `${indent}${op} ${key}`;
+    const indentedKey = `${indent}${op}${key}`;
 
     if (Array.isArray(value)) return `${acc}${indentedKey}: {\n${style(value)}${indent}  }\n`;
     if (_.isObject(value)) return `${acc}${indentedKey}: {\n${stringify(value, depth + 1)}${indent}  }\n`;
