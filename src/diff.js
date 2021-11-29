@@ -10,17 +10,16 @@ const getDifference = (data1, data2, depth = 0) => {
   const sorted = getUniqueKeysSorted(keys1, keys2);
 
   return sorted.reduce((acc, key) => {
-    if (_.isObject(data1[key]) && _.isObject(data2[key])) {
-      return [...acc, {
-        depth, op: ' ', key, value: getDifference(data1[key], data2[key], depth + 1),
-      }];
-    }
-
     const value1 = data1[key];
     const value2 = data2[key];
 
+    if (_.isObject(value1) && _.isObject(value2)) {
+      return [...acc, {
+        depth, op: ' ', key, value: getDifference(value1, value2, depth + 1),
+      }];
+    }
     if (key in data1 && key in data2) {
-      return data1[key] === data2[key]
+      return value1 === value2
         ? [...acc, {
           depth, op: ' ', key, value: value1,
         }]
@@ -39,15 +38,16 @@ const getDifference = (data1, data2, depth = 0) => {
       }];
   }, []);
 };
-export default (file1, file2, format) => {
+
+export default (file1, file2, format = 'stylish') => {
   const data1 = parseFile(file1);
   const data2 = parseFile(file2);
 
   const diff = getDifference(data1, data2);
   switch (format) {
     case 'stylish':
-      return `{\n${stylish(diff)}}`;
+      return stylish(diff);
     default:
-      return 'no such format';
+      throw (new Error(`There is no such format: ${format}`));
   }
 };

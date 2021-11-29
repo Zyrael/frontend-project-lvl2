@@ -1,12 +1,11 @@
 import path from 'path';
-import fs from 'fs';
 import yaml from 'js-yaml';
+import { getRawData } from './functions.js';
 
 export default (fileName) => {
   const fileExtension = path.extname(fileName);
   const filepath = path.resolve(fileName);
-  const openedFile = fs.openSync(filepath);
-  const rawData = fs.readFileSync(openedFile, 'utf-8');
+  const rawData = getRawData(filepath);
   switch (fileExtension) {
     case '.yaml':
     case '.yml':

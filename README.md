@@ -12,3 +12,5 @@ gendiff <file1> <file2>
 [![asciicast](https://asciinema.org/a/CwvvqiDkaoQHv7psrrR83I9Px.svg)](https://asciinema.org/a/CwvvqiDkaoQHv7psrrR83I9Px)
 ### YAML Files:
 [![asciicast](https://asciinema.org/a/zMy0jspFJZpbTYHepzOUQqzgd.svg)](https://asciinema.org/a/zMy0jspFJZpbTYHepzOUQqzgd)
+### Deep files:
+[![asciicast](https://asciinema.org/a/QFDqfyIPxSeOeLHKZehE0jJvj.svg)](https://asciinema.org/a/QFDqfyIPxSeOeLHKZehE0jJvj)

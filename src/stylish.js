@@ -16,7 +16,7 @@ const stringify = (obj, depth) => {
   return `${result}`;
 };
 
-const stylish = (diff) => {
+const style = (diff) => {
   const result = diff.reduce((acc, obj) => {
     const {
       depth, op, key, value,
@@ -24,12 +24,14 @@ const stylish = (diff) => {
     const indent = getIndentation(depth);
     const indentedKey = `${indent}${op} ${key}`;
 
-    if (Array.isArray(value)) return `${acc}${indentedKey}: {\n${stylish(value)}${indent}  }\n`;
+    if (Array.isArray(value)) return `${acc}${indentedKey}: {\n${style(value)}${indent}  }\n`;
     if (_.isObject(value)) return `${acc}${indentedKey}: {\n${stringify(value, depth + 1)}${indent}  }\n`;
 
     return `${acc}${indentedKey}: ${value}\n`;
   }, '');
   return `${result}`;
 };
+
+const stylish = (diff) => `{\n${style(diff)}}`;
 
 export default stylish;
