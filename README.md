@@ -14,3 +14,5 @@ gendiff <file1> <file2>
 [![asciicast](https://asciinema.org/a/zMy0jspFJZpbTYHepzOUQqzgd.svg)](https://asciinema.org/a/zMy0jspFJZpbTYHepzOUQqzgd)
 ### Deep files:
 [![asciicast](https://asciinema.org/a/QFDqfyIPxSeOeLHKZehE0jJvj.svg)](https://asciinema.org/a/QFDqfyIPxSeOeLHKZehE0jJvj)
+### Plain format:
+[![asciicast](https://asciinema.org/a/yNMkEVw4jbqZOYp1N2gTjYUv7.svg)](https://asciinema.org/a/yNMkEVw4jbqZOYp1N2gTjYUv7)
