@@ -1,10 +1,12 @@
 import _ from 'lodash';
 
-const getRightString = (value) => ((typeof value === 'string')
+const stringify = (value) => ((typeof value === 'string')
   ? `'${value}'`
   : value);
 
-const getIfObject = (value) => ((_.isObject(value)) ? '[complex value]' : getRightString(value));
+const getIfObject = (value) => ((_.isObject(value))
+  ? '[complex value]'
+  : stringify(value));
 
 const getUpdateString = (completeKey, value) => {
   const [oldValue, newValue] = value.map((item) => getIfObject(item.value));
