@@ -27,7 +27,9 @@ const getDiffString = (indent, difference, key, value) => {
   }
 };
 
-const getIfObject = (indent, value, depth) => ((_.isObject(value)) ? `{\n${stringify(value, depth + 1)}${indent}  }` : value);
+const getIfObject = (indent, value, depth) => ((_.isObject(value))
+  ? `{\n${stringify(value, depth + 1)}${indent}  }`
+  : value);
 
 const style = (diff, depth = 0) => diff
   .map(({
@@ -37,7 +39,9 @@ const style = (diff, depth = 0) => diff
     if (difference === 'update') {
       return style(value, depth);
     }
-    const completeValue = (Array.isArray(value)) ? `{\n${style(value, depth + 1)}${indent}  }` : getIfObject(indent, value, depth);
+    const completeValue = (Array.isArray(value))
+      ? `{\n${style(value, depth + 1)}${indent}  }`
+      : getIfObject(indent, value, depth);
 
     return getDiffString(indent, difference, key, completeValue);
   })
