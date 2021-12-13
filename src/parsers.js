@@ -8,6 +8,7 @@ export default (fileName) => {
   const rawData = getRawData(filepath);
   switch (fileExtension) {
     case '.yaml':
+      return yaml.load(rawData);
     case '.yml':
       return yaml.load(rawData);
     case '.json':
