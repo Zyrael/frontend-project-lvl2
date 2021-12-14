@@ -15,13 +15,14 @@ const getFilePath = (file) => path.join(__dirname, '..', '__fixtures__', file);
 
 const jsonFile1 = getFilePath('file1.json');
 const jsonFile2 = getFilePath('file2.json');
-const yamlFile1 = getFilePath('file1.yaml');
+const yamlFile1 = getFilePath('file1.yml');
 const yamlFile2 = getFilePath('file2.yaml');
 const txtFile = getFilePath('file.txt');
 
 describe('main flow', () => {
   test('stylish test', () => {
     expect(diff(jsonFile1, jsonFile2, 'stylish')).toBe(stylishExpected);
+    expect(diff(jsonFile1, jsonFile2)).toBe(stylishExpected);
     expect(diff(yamlFile1, yamlFile2, 'stylish')).toBe(stylishExpected);
   });
   test('plain test', () => {

@@ -1,13 +1,13 @@
 import _ from 'lodash';
 import parseFile from './parsers.js';
-import { getKeys, getUniqueKeysSorted } from './functions.js';
 import format from './formatters/index.js';
 
 const getDifference = (data1, data2) => {
-  const keys1 = getKeys(data1);
-  const keys2 = getKeys(data2);
+  const keys1 = Object.keys(data1);
+  const keys2 = Object.keys(data2);
 
-  const sorted = getUniqueKeysSorted(keys1, keys2);
+  const unique = Array.from(new Set([...keys1, ...keys2]));
+  const sorted = _.sortBy(unique);
 
   return sorted.map((key) => {
     const value1 = data1[key];
@@ -43,7 +43,7 @@ const getDifference = (data1, data2) => {
   });
 };
 
-export default (file1, file2, formatName) => {
+export default (file1, file2, formatName = 'stylish') => {
   const data1 = parseFile(file1);
   const data2 = parseFile(file2);
 

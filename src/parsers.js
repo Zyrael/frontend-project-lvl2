@@ -1,6 +1,11 @@
 import path from 'path';
 import yaml from 'js-yaml';
-import { getRawData } from './functions.js';
+import fs from 'fs';
+
+const getRawData = (filepath) => {
+  const openedFile = fs.openSync(filepath, 'r');
+  return fs.readFileSync(openedFile, 'utf-8');
+};
 
 export default (fileName) => {
   const fileExtension = path.extname(fileName);

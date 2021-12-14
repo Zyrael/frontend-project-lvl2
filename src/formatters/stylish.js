@@ -1,8 +1,9 @@
 import _ from 'lodash';
-import { getKeys, getIndentation } from '../functions.js';
+
+const getIndentation = (depth) => ' '.repeat(2 + depth * 4);
 
 const stringify = (obj, depth) => {
-  const keys = getKeys(obj);
+  const keys = Object.keys(obj);
   const indent = getIndentation(depth);
 
   const result = keys.reduce((acc, key) => {

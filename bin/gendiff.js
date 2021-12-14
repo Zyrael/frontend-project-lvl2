@@ -8,12 +8,10 @@ program
   .version('1.0')
   .option('-f, --format <type>', '[type]  output format', 'stylish')
   .arguments('<file1> <file2>')
-  .action(() => {
-    const [file1, file2] = program.args;
-    const options = program.opts();
-    const { format } = options;
+  .action((file1, file2) => {
+    // const { format } = program.opts();
 
-    const diff = genDiff(file1, file2, format);
+    const diff = genDiff(file1, file2, program.opts().format);
     console.log(diff);
   });
 
