@@ -1,51 +1,46 @@
 import _ from 'lodash';
+import fs from 'fs';
+import path from 'path';
 import parseFile from './parsers.js';
 import format from './formatters/index.js';
 
+const getRawData = (fileName) => {
+  const filepath = path.resolve(fileName);
+  const openedFile = fs.openSync(filepath, 'r');
+  return fs.readFileSync(openedFile, 'utf-8');
+};
+
 const getDifference = (data1, data2) => {
-  const keys1 = Object.keys(data1);
-  const keys2 = Object.keys(data2);
+  const keys = Array.from(new Set([...Object.keys(data1), ...Object.keys(data2)]));
+  const sortedKeys = _.sortBy(keys);
 
-  const unique = Array.from(new Set([...keys1, ...keys2]));
-  const sorted = _.sortBy(unique);
-
-  return sorted.map((key) => {
+  return sortedKeys.map((key) => {
     const value1 = data1[key];
     const value2 = data2[key];
 
     if (_.isObject(value1) && _.isObject(value2)) {
+      return { key, children: getDifference(value1, value2) };
+    }
+
+    if (_.has(data1, [key]) && _.has(data2, [key])) {
+      if (value1 === value2) return { key, value1 };
       return {
-        key, value: getDifference(value1, value2),
+        difference: 'update', key, value1, value2,
       };
     }
-    if (key in data1 && key in data2) {
-      return value1 === value2
-        ? {
-          key, value: value1,
-        }
-        : {
-          difference: 'update',
-          key,
-          value: [{
-            difference: 'remove', key, value: value1,
-          }, {
-            difference: 'add', key, value: value2,
-          }],
-        };
-    }
-    return key in data1
-      ? {
-        difference: 'remove', key, value: value1,
-      }
-      : {
-        difference: 'add', key, value: value2,
-      };
+
+    if (_.has(data1, [key])) return { difference: 'remove', key, value1 };
+
+    return { difference: 'add', key, value2 };
   });
 };
 
 export default (file1, file2, formatName = 'stylish') => {
-  const data1 = parseFile(file1);
-  const data2 = parseFile(file2);
+  const rawData1 = getRawData(file1);
+  const rawData2 = getRawData(file2);
+
+  const data1 = parseFile(rawData1, path.extname(file1));
+  const data2 = parseFile(rawData2, path.extname(file2));
 
   const diff = getDifference(data1, data2);
   return format(diff, formatName);

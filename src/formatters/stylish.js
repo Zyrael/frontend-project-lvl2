@@ -17,34 +17,32 @@ const stringify = (obj, depth) => {
   return `${result}`;
 };
 
-const getDiffString = (indent, difference, key, value) => {
-  switch (difference) {
-    case 'remove':
-      return `${indent}- ${key}: ${value}\n`;
-    case 'add':
-      return `${indent}+ ${key}: ${value}\n`;
-    default:
-      return `${indent}  ${key}: ${value}\n`;
-  }
-};
-
-const getIfObject = (indent, value, depth) => ((_.isObject(value))
+const getIfObject = (value, indent, depth) => ((_.isObject(value))
   ? `{\n${stringify(value, depth + 1)}${indent}  }`
   : value);
 
 const style = (diff, depth = 0) => diff
-  .map(({
-    difference, key, value,
-  }) => {
+  .map((item) => {
     const indent = getIndentation(depth);
-    if (difference === 'update') {
-      return style(value, depth);
-    }
-    const completeValue = (Array.isArray(value))
-      ? `{\n${style(value, depth + 1)}${indent}  }`
-      : getIfObject(indent, value, depth);
 
-    return getDiffString(indent, difference, key, completeValue);
+    if (_.has(item, 'children')) return `${indent}  ${item.key}: {\n${style(item.children, depth + 1)}${indent}  }\n`;
+
+    const {
+      difference, key, value1, value2,
+    } = item;
+    const completeValue1 = getIfObject(value1, indent, depth);
+    const completeValue2 = getIfObject(value2, indent, depth);
+
+    switch (difference) {
+      case 'update':
+        return `${indent}- ${key}: ${completeValue1}\n${indent}+ ${key}: ${completeValue2}\n`;
+      case 'remove':
+        return `${indent}- ${key}: ${completeValue1}\n`;
+      case 'add':
+        return `${indent}+ ${key}: ${completeValue2}\n`;
+      default:
+        return `${indent}  ${key}: ${completeValue1}\n`;
+    }
   })
   .join('');
 
