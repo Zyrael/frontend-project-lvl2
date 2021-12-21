@@ -9,6 +9,8 @@ const format = (diff, formatName) => {
       return plain(diff);
     case 'json':
       return JSON.stringify(diff);
+    case 'diff':
+      return diff;
     default:
       throw (new Error(`No such format: ${formatName}`));
   }

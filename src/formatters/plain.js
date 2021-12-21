@@ -1,32 +1,31 @@
 import _ from 'lodash';
 
-const stringify = (value) => ((typeof value === 'string')
-  ? `'${value}'`
-  : value);
-
-const getIfObject = (value) => ((_.isObject(value))
-  ? '[complex value]'
-  : stringify(value));
+const stringify = (value) => {
+  if (_.isObject(value)) return '[complex value]';
+  return ((typeof value === 'string')
+    ? `'${value}'`
+    : value);
+};
 
 const plain = (diff, upperKey = '') => diff
   .map((item) => {
     const {
-      difference, key, value1, value2,
+      type, key, children, value1, value2,
     } = item;
     const completeKey = `${upperKey}${key}`;
 
-    if (_.has(item, 'children')) return plain(item.children, `${completeKey}.`);
+    const completeValue1 = stringify(value1);
+    const completeValue2 = stringify(value2);
 
-    const completeValue1 = getIfObject(value1);
-    const completeValue2 = getIfObject(value2);
-
-    switch (difference) {
-      case 'add':
-        return `Property '${completeKey}' was added with value: ${completeValue2}`;
-      case 'remove':
+    switch (type) {
+      case 'removed':
         return `Property '${completeKey}' was removed`;
-      case 'update':
+      case 'added':
+        return `Property '${completeKey}' was added with value: ${completeValue2}`;
+      case 'updated':
         return `Property '${completeKey}' was updated. From ${completeValue1} to ${completeValue2}`;
+      case 'nested':
+        return plain(children, `${completeKey}.`);
       default:
         return '';
     }

@@ -18,20 +18,13 @@ const getDifference = (data1, data2) => {
     const value1 = data1[key];
     const value2 = data2[key];
 
-    if (_.isObject(value1) && _.isObject(value2)) {
-      return { key, children: getDifference(value1, value2) };
-    }
-
-    if (_.has(data1, [key]) && _.has(data2, [key])) {
-      if (value1 === value2) return { key, value1 };
-      return {
-        difference: 'update', key, value1, value2,
-      };
-    }
-
-    if (_.has(data1, [key])) return { difference: 'remove', key, value1 };
-
-    return { difference: 'add', key, value2 };
+    if (_.isObject(value1) && _.isObject(value2)) return { type: 'nested', key, children: getDifference(value1, value2) };
+    if (_.has(data1, key) && !_.has(data2, key)) return { type: 'removed', key, value1 };
+    if (!_.has(data1, key) && _.has(data2, key)) return { type: 'added', key, value2 };
+    if (value1 === value2) return { type: 'not changed', key, value1 };
+    return {
+      type: 'updated', key, value1, value2,
+    };
   });
 };
 

@@ -2,46 +2,43 @@ import _ from 'lodash';
 
 const getIndentation = (depth) => ' '.repeat(2 + depth * 4);
 
-const stringify = (obj, depth) => {
-  const keys = Object.keys(obj);
-  const indent = getIndentation(depth);
+const stringify = (value, depth) => {
+  if (!_.isObject(value)) return value;
+  const keys = Object.keys(value);
+  const indent = getIndentation(depth + 1);
 
   const result = keys.reduce((acc, key) => {
     const indentedKey = `${indent}  ${key}`;
-    const value = obj[key];
+    const deepValue = value[key];
 
-    if (_.isObject(value)) return `${acc}${indentedKey}: {\n${stringify(value, depth + 1)}${indent}  }\n`;
+    if (_.isObject(deepValue)) return `${acc}${indentedKey}: ${stringify(deepValue, depth + 1)}\n`;
 
-    return `${acc}${indentedKey}: ${value}\n`;
+    return `${acc}${indentedKey}: ${deepValue}\n`;
   }, '');
-  return `${result}`;
+  return `{\n${result}${getIndentation(depth)}  }`;
 };
 
-const getIfObject = (value, indent, depth) => ((_.isObject(value))
-  ? `{\n${stringify(value, depth + 1)}${indent}  }`
-  : value);
-
 const style = (diff, depth = 0) => diff
-  .map((item) => {
+  .map(({
+    type, key, children, value1, value2,
+  }) => {
     const indent = getIndentation(depth);
+    const completeValue1 = stringify(value1, depth);
+    const completeValue2 = stringify(value2, depth);
 
-    if (_.has(item, 'children')) return `${indent}  ${item.key}: {\n${style(item.children, depth + 1)}${indent}  }\n`;
-
-    const {
-      difference, key, value1, value2,
-    } = item;
-    const completeValue1 = getIfObject(value1, indent, depth);
-    const completeValue2 = getIfObject(value2, indent, depth);
-
-    switch (difference) {
-      case 'update':
-        return `${indent}- ${key}: ${completeValue1}\n${indent}+ ${key}: ${completeValue2}\n`;
-      case 'remove':
-        return `${indent}- ${key}: ${completeValue1}\n`;
-      case 'add':
-        return `${indent}+ ${key}: ${completeValue2}\n`;
-      default:
+    switch (type) {
+      case 'not changed':
         return `${indent}  ${key}: ${completeValue1}\n`;
+      case 'removed':
+        return `${indent}- ${key}: ${completeValue1}\n`;
+      case 'added':
+        return `${indent}+ ${key}: ${completeValue2}\n`;
+      case 'updated':
+        return `${indent}- ${key}: ${completeValue1}\n${indent}+ ${key}: ${completeValue2}\n`;
+      case 'nested':
+        return `${indent}  ${key}: {\n${style(children, depth + 1)}${indent}  }\n`;
+      default:
+        return '';
     }
   })
   .join('');
