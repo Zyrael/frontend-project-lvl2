@@ -14,16 +14,13 @@ const plain = (diff, upperKey = '') => diff
     } = item;
     const completeKey = `${upperKey}${key}`;
 
-    const completeValue1 = stringify(value1);
-    const completeValue2 = stringify(value2);
-
     switch (type) {
       case 'removed':
         return `Property '${completeKey}' was removed`;
       case 'added':
-        return `Property '${completeKey}' was added with value: ${completeValue2}`;
+        return `Property '${completeKey}' was added with value: ${stringify(value2)}`;
       case 'updated':
-        return `Property '${completeKey}' was updated. From ${completeValue1} to ${completeValue2}`;
+        return `Property '${completeKey}' was updated. From ${stringify(value1)} to ${stringify(value2)}`;
       case 'nested':
         return plain(children, `${completeKey}.`);
       default:

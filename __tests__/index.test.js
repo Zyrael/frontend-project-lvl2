@@ -20,16 +20,23 @@ const yamlFile2 = getFilePath('file2.yaml');
 const txtFile = getFilePath('file.txt');
 
 describe('main flow', () => {
-  test('stylish test', () => {
-    expect(diff(jsonFile1, jsonFile2, 'stylish')).toBe(stylishExpected);
-    expect(diff(jsonFile1, jsonFile2)).toBe(stylishExpected);
-    expect(diff(yamlFile1, yamlFile2, 'stylish')).toBe(stylishExpected);
-  });
-  test('plain test', () => {
-    expect(diff(jsonFile1, jsonFile2, 'plain')).toBe(plainExpected);
-  });
-  test('json test', () => {
-    expect(diff(jsonFile1, jsonFile2, 'json')).toBe(jsonExpected);
+  test.each([
+	 {
+		 file1: jsonFile1, file2: jsonFile2, formatter: 'stylish', expected: stylishExpected,
+    },
+	 {
+		 file1: yamlFile1, file2: yamlFile2, formatter: 'stylish', expected: stylishExpected,
+    },
+	 {
+		 file1: yamlFile1, file2: yamlFile2, formatter: 'plain', expected: plainExpected,
+    },
+	 {
+		 file1: yamlFile1, file2: yamlFile2, formatter: 'json', expected: jsonExpected,
+    },
+  ])('$formatter test', ({
+    file1, file2, formatter, expected,
+  }) => {
+    expect(diff(file1, file2, formatter)).toBe(expected);
   });
 });
 
