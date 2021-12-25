@@ -4,7 +4,7 @@ import path from 'path';
 import parseFile from './parsers.js';
 import format from './formatters/index.js';
 
-const getRawData = (fileName) => {
+export const getRawData = (fileName) => {
   const filepath = path.resolve(fileName);
   const openedFile = fs.openSync(filepath, 'r');
   return fs.readFileSync(openedFile, 'utf-8');

@@ -7,12 +7,13 @@ const stringify = (value) => {
     : value);
 };
 
-const plain = (diff, upperKey = '') => diff
+const plain = (diff, keys = []) => diff
   .map((item) => {
     const {
       type, key, children, value1, value2,
     } = item;
-    const completeKey = `${upperKey}${key}`;
+    const keysArray = [...keys, key];
+    const completeKey = keysArray.join('.');
 
     switch (type) {
       case 'removed':
@@ -22,7 +23,7 @@ const plain = (diff, upperKey = '') => diff
       case 'updated':
         return `Property '${completeKey}' was updated. From ${stringify(value1)} to ${stringify(value2)}`;
       case 'nested':
-        return plain(children, `${completeKey}.`);
+        return plain(children, keysArray);
       default:
         return '';
     }
